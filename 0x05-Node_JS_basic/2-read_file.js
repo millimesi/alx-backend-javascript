@@ -1,75 +1,52 @@
 const fs = require('fs');
 
-function csvToObjectList(data) {
-  const lines = data.trim().split('\n').filter((line) => line.trim() !== '');
-
-  const headers = lines[0].split(',');
-  const rows = lines.slice(1);
-
-  const studentData = [];
-  rows.forEach((row) => {
-    const studnet = row.split(',');
-
-    const studentObj = {};
-    headers.forEach((header, index) => {
-      studentObj[header] = studnet[index];
-    });
-
-    studentData.push(studentObj);
-  });
-
-  return studentData;
-}
-
-function fieldDataList(studentData) {
-  let fields = studentData.map((object) => object.field);
-
-  fields = [...new Set(fields)];
-
-  const fieldData = [];
-
-  for (const field of fields) {
-    const fieldObj = {
-      name: field,
-      count: 0,
-      list: [],
-    };
-
-    fieldData.push(fieldObj);
-  }
-
-  fieldData.forEach((fieldobject) => {
-    studentData.forEach((student) => {
-      if (student.field === fieldobject.name) {
-        const updateField = { ...fieldobject };
-
-        updateField.count += 1;
-        updateField.list.push(student.firstname);
-        Object.assign(fieldobject, updateField);
-      }
-    });
-  });
-  return fieldData;
-}
-
 function countStudents(path) {
   try {
-    // Read the csv file from the file
-    const data = fs.readFileSync(path, 'utf-8');
+    // Read the file synchronously
+    const data = fs.readFileSync(path, 'utf8');
+    // Split the file content by new lines
+    const lines = data.split('\n').filter((line) => line.trim() !== '');
+    // console.log(`lines:   ${lines}`);
 
-    // Create an object of the rows lisr for the data
-    const studentData = csvToObjectList(data);
-
-    // prepare another list of object or dic
-    // that has field name, student count and List
-    const fieldData = fieldDataList(studentData);
-
-    // Display the data according to the given format
-    console.log(`Number of students: ${studentData.length}`);
-    for (const field of fieldData) {
-      console.log(`Number of students in ${field.name}: ${field.count}. List: ${field.list.join(', ')}`);
+    // If the file is empty (except header), throw an error
+    if (lines.length <= 1) {
+      throw new Error('Cannot load the database');
     }
-  } catch (err) {
+
+    // Remove the header line
+    lines.shift();
+
+    // Create a map to store the students by field
+    const studentsByField = {};
+
+    // Process each line
+    for (const line of lines) {
+      const parts = line.split(',');
+
+      // Check if the line has the expected number of parts
+      if (parts.length === 4) {
+        const firstname = parts[0];
+        const field = parts[3];
+
+        if (!studentsByField[field]) {
+          studentsByField[field] = [];
+        }
+
+        studentsByField[field].push(firstname);
+        // console.log(`studentsByField: ${studentsByField}`);
+      }
+    }
+
+    // Log the total number of students
+    const fieldValues = Object.values(studentsByField);
+    const totalStudents = fieldValues.reduce((acc, fieldStudents) => acc + fieldStudents.length, 0);
+    console.log(`Number of students: ${totalStudents}`);
+
+    // Log the number of students in each field and their names
+    for (const [field, students] of Object.entries(studentsByField)) {
+      console.log(`Number of students in ${field}: ${students.length}. List: ${students.join(', ')}`);
+    }
+  } catch (error) {
     throw new Error('Cannot load the database');
   }
 }
