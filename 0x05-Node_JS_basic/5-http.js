@@ -95,7 +95,7 @@ const app = createServer(async (req, res) => {
     try {
       const response = await countStudents('database.csv');
       res.statusCode = 200;
-      res.end(response);
+      res.end(`This is the list of our students\n${response}`);
     } catch (err) {
       res.statusCode = 500;
       res.end('Internal server Error');
@@ -107,3 +107,5 @@ const app = createServer(async (req, res) => {
 });
 
 app.listen(1245, '127.0.0.1');
+
+module.exports = app;
