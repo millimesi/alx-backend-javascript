@@ -93,7 +93,7 @@ const app = createServer(async (req, res) => {
   } else if (pathname === '/students') {
     res.statusCode = 200;
     try {
-      const response = await countStudents('database.csv');
+      const response = await countStudents(process.argv[2]);
       res.statusCode = 200;
       res.end(`This is the list of our students\n${response}`);
     } catch (err) {
