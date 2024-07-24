@@ -57,12 +57,13 @@ app.get('/', (req, res) => {
 
 app.get('/students', async (req, res) => {
   res.setHeader('Content-Type', 'text/plain');
-  try {
-    const studentInfo = await countStudents(process.argv[2]);
+  res.write('This is the list of our students\n');
 
-    res.send(`This is the list of our students\n${studentInfo}`);
+  try {
+    const result = await countStudents(process.argv[2]);
+    res.end(result);
   } catch (err) {
-    res.send(err.message);
+    res.end(err.message);
   }
 });
 
