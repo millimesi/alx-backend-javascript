@@ -26,6 +26,10 @@ describe('calculateNumber with type="SUM"', () => {
     it('Test adding number above 0.5 which is negative', () => {
         assert.strictEqual(calculateNumber('SUM', 1, -3.7), -3);
     });
+
+    it('Test adding number is negative', () => {
+        assert.strictEqual(calculateNumber('SUM', -1.2, -3.7), -5);
+    });
 })
 
 // Test for type SUBSTRACT
@@ -53,12 +57,20 @@ describe('calculateNumber with type="SUBSTRACT"', ()=> {
     it('Test substracting number above 0.5 which is negative', () => {
         assert.strictEqual(calculateNumber('SUBTRACT', 1, -3.7), -5);
     });
+
+    it('Test substracting number above 0.5 which is negative', () => {
+        assert.strictEqual(calculateNumber('SUBTRACT', -1.2, -3.7), -3);
+    });
 })
 
 // Test for type DIVIDE
 describe('calculateNumber with type="DIVIDE"', () => {
     it('Test zero denuminator', () => {
         assert.strictEqual(calculateNumber('DIVIDE', 1, 0.2), 'Error');
+    });
+
+    it('Test zero oerands', () => {
+        assert.strictEqual(calculateNumber('DIVIDE', 0, 0), 'Error');
     });
 
     it('Test DIVIDEing whole numbers', () => {
