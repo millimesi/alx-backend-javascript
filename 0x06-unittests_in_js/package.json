@@ -8,7 +8,7 @@
     "mocha": "^6.2.3"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "mocha"
   },
   "author": "",
   "license": "ISC"
