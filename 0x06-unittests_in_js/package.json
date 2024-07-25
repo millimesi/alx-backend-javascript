@@ -5,12 +5,13 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "mocha": "^6.2.3",
+    "chai": "^4.2.0",
     "eslint": "^6.4.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jest": "^22.17.0",
-    "chai": "^4.2.0"
+    "mocha": "^6.2.3",
+    "sinon": "^7.5.0"
   },
   "scripts": {
     "test": "mocha"
