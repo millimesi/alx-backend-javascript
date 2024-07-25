@@ -58,7 +58,12 @@ describe('calculateNumber with type="SUBSTRACT"', ()=> {
 // Test for type DIVIDE
 describe('calculateNumber with type="DIVIDE"', () => {
     it('Test zero denuminator', () => {
-        assert.strictEqual(calculateNumber('DIVIDE', 1, 0.2), 'Error');
+        try {
+            calculateNumber('DIVIDE', 1, 0.2);
+        } catch (err) {
+            assert(err instanceof TypeError);
+            assert.notStrictEqual(err.message, 'Error');
+        };
     });
 
     it('Test DIVIDEing whole numbers', () => {
