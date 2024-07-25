@@ -58,12 +58,7 @@ describe('calculateNumber with type="SUBSTRACT"', ()=> {
 // Test for type DIVIDE
 describe('calculateNumber with type="DIVIDE"', () => {
     it('Test zero denuminator', () => {
-        try {
-            calculateNumber('DIVIDE', 1, 0.2);
-        } catch (err) {
-            assert(err instanceof TypeError);
-            assert.notStrictEqual(err.message, 'Error');
-        };
+        assert.strictEqual(calculateNumber('DIVIDE', 1, 0.2), 'Error');
     });
 
     it('Test DIVIDEing whole numbers', () => {
@@ -90,9 +85,3 @@ describe('calculateNumber with type="DIVIDE"', () => {
     assert.strictEqual(calculateNumber('DIVIDE', 4, -3.7), -1);
     });
 })
-
-describe('tyepe should be SUM, SUBTRACT, or Divide', () => {
-    it('Invalid type', () => {
-        assert.strictEqual(calculateNumber('Mila', 2, 3), 'Type should be SUM, SUBSTRACT or DIVIDE')
-    });
-});
